@@ -1,0 +1,81 @@
+1. npm init --yes
+
+2. npm install --save-dev webpack webpack-cli style-loader css-loader eslint
+
+3. npm install --save-dev --save-exact prettier
+
+4. mkdir src dist
+
+5. cd src
+
+6. touch index.js
+
+7. cd ../dist/
+
+8. touch index.html
+
+9. printf '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta http-equiv="X-UA-Compatible" content="IE=edge" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Document</title>\n  </head>\n  <body></body>\n  <script src="bundle.js"></script>\n</html>\n' > index.html
+
+10. cd ..
+
+11. touch webpack.config.js
+
+12. printf "const path = require(\'path\');\n\nmodule.exports = {\n  mode: \'development\',\n  entry: \'./src/index.js\',\n  output: {\n    filename: \'bundle.js\',\n    path: path.resolve(__dirname, \'dist\'),\n  },\n  devtool: \'inline-source-map\',\n  module: {\n    rules: [\n      {\n        test: /\.css$/i,\n\n        use: [\'style-loader\', \'css-loader\'],\n      },\n      {\n        test: /\.(png|svg|jpg|jpeg|gif)$/i,\n\n        type: \'asset/resource\',\n      },\n    ],\n  },\n};\n" > webpack.config.js
+
+13. echo node_modules/ > .gitignore
+
+14. printf 'node_modules/\ndist/bundle.js' > .eslintignore
+
+15. printf 'node_modules/\ndist/bundle.js' > .prettierignore
+
+16. echo {} > .prettierrc.json
+
+17. touch .eslintrc.json
+
+19. mkdir .vscode
+
+20. cd .vscode/
+
+21. touch settings.json
+
+22. printf '{\n  "editor.codeActionsOnSave": {\n      "source.fixAll.eslint": true\n  },\n  "eslint.validate": ["javascript"],\n  "editor.defaultFormatter": "esbenp.prettier-vscode",\n  "[javascript]": {\n    "editor.defaultFormatter": "esbenp.prettier-vscode"\n  },\n  "editor.formatOnSave": true,\n  \n}\n' > settings.json
+
+23. cd..
+----- pana aici pot automatiza usor --------
+
+24. npm init @eslint/config
+
+25. npm install --save-dev eslint-config-prettier
+
+26. adauga ce scrie mai jos la .eslintrc.json
+
+
+ "extends": ["airbnb-base", "prettier"],
+  "overrides": [],
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "rules": {
+    "no-console": "warn",
+    "quotes": ["error", "single"],
+    "no-plusplus": "off"
+  }
+
+
+
+26. adauga ce scrie mai jos in package.json la sfarsit(prettier) si scripts inlocuieste
+"prettier": {
+    "singleQuote": true
+  }
+
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --watch"
+  },
+
+27. git init -b main
+
+28. git add . && git commit -m "initial commit"
+
+29. gh repo create

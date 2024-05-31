@@ -1,0 +1,108 @@
+1. npm init --yes
+
+2. npm install --save-dev webpack webpack-dev-server webpack-cli style-loader css-loader eslint babel-loader @babel/core @babel/preset-env @babel/preset-react html-webpack-plugin react-scripts @testing-library/react @testing-library/jest-dom @testing-library/user-event
+
+3. npm install --save-dev --save-exact prettier
+
+4. npm install react react-dom
+
+5. mkdir src dist
+
+6. cd src
+
+7. touch index.js index.html setupTests.js
+
+8. printf '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta http-equiv="X-UA-Compatible" content="IE=edge" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>My React App</title>\n  </head>\n  <body>\n    <div id="root"></div>\n</body>\n  <script src="bundle.js"></script>\n</html>\n' > index.html
+
+9. printf 'import React from "react";\nimport ReactDOM from "react-dom/client";\nimport App from "./components/App";\n\nconst root = ReactDOM.createRoot(document.getElementById("root"));\nroot.render(\n  <React.StrictMode>\n    <App />\n  </React.StrictMode>\n);\n' > index.js
+
+10. printf 'import "@testing-library/jest-dom";' > setupTests.js
+
+11. mkdir components
+
+12. cd components
+
+13. touch App.js
+
+14. printf 'import React, { Component } from "react";\n\nclass App extends Component {\n  render() {\n    return (\n      <div>\n        <h1>My React App</h1>\n      </div>\n    );\n  }\n}\n\nexport default App;\n' > App.js
+
+15. cd ../..
+
+16. touch .babelrc 
+
+17. printf '{\n  "presets": ["@babel/env", "@babel/react"]\n}\n' > .babelrc
+
+18. touch .browserslistrc
+
+19. printf '> 0.25%%\nnot dead\nnot op_mini all' > .browserslistrc
+
+20. touch webpack.config.js
+
+21. printf 'const path = require("path");\nconst HtmlWebpackPlugin = require("html-webpack-plugin");\n\nmodule.exports = {\n  entry: "./src/index.js",\n  output: {\n    filename: "bundle.js",\n    path: path.resolve(__dirname, "dist"),\n  },\n  devtool: "inline-source-map",\n  module: {\n    rules: [\n      {\n        test: /\.css$/i,\n        use: ["style-loader", "css-loader"],\n      },\n      {\n        test: /\.(png|svg|jpg|jpeg|gif)$/i,\n        type: "asset/resource",\n      },\n      {\n        test: /\.m?js$/,\n        exclude: /node_modules/,\n        use: {\n          loader: "babel-loader",\n        },\n      },\n    ],\n  },\n  plugins: [\n    new HtmlWebpackPlugin({\n      template: "./src/index.html",\n    }),\n  ],\n};\n' > webpack.config.js
+
+22. echo node_modules/ > .gitignore
+
+23. printf 'node_modules/\n' > .eslintignore
+
+24. printf 'node_modules/\n' > .prettierignore
+
+25. echo {} > .prettierrc.json
+
+26. touch .eslintrc.json
+
+27. mkdir .vscode
+
+28. cd .vscode/
+
+29. touch settings.json
+
+30. printf '{\n  "editor.codeActionsOnSave": {\n      "source.fixAll.eslint": true\n  },\n  "eslint.validate": ["javascript"],\n  "editor.defaultFormatter": "esbenp.prettier-vscode",\n  "[javascript]": {\n    "editor.defaultFormatter": "esbenp.prettier-vscode"\n  },\n  "editor.formatOnSave": true,\n  \n}\n' > settings.json
+
+31. cd ..
+
+32. touch jest.config.js
+
+33. printf 'export default {\n  setupFilesAfterEnv: ["./setupTests.js"],\n};' > jest.config.js
+----- pana aici pot automatiza usor --------
+
+34. npm init @eslint/config
+
+35. npm install --save-dev eslint-config-prettier
+
+36. adauga ce scrie mai jos la .eslintrc.json
+
+
+ "extends": [
+        "plugin:react/recommended",
+        "airbnb",
+        "prettier",
+        "react-app/jest"
+    ],
+  
+  "rules": {
+    "no-console": "warn",
+    "quotes": ["error", "single"],
+    "no-plusplus": "off",
+    "react/prefer-stateless-function": "off",
+    "react/jsx-filename-extension": "off"
+  }
+
+
+
+37. adauga ce scrie mai jos in package.json la sfarsit(prettier) si scripts inlocuieste
+"prettier": {
+    "singleQuote": true
+  }
+
+"scripts": {
+    "test": "react-scripts test",
+    "build": "webpack --mode production",
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server --mode development --open --hot"
+  },
+
+38. git init -b main
+
+39. git add . && git commit -m "initial commit"
+
+40. gh repo create

@@ -1,0 +1,101 @@
+1. npm init --yes
+
+2. npm install --save-dev webpack webpack-dev-server webpack-cli style-loader css-loader eslint babel-loader @babel/core @babel/preset-env @babel/preset-react html-webpack-plugin
+
+3. npm install --save-dev --save-exact prettier
+
+4. npm install react react-dom
+
+5. mkdir src dist
+
+6. cd src
+
+7. touch index.js index.html
+
+10. printf '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta http-equiv="X-UA-Compatible" content="IE=edge" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>My React App</title>\n  </head>\n  <body>\n    <div id="root"></div>\n</body>\n  <script src="bundle.js"></script>\n</html>\n' > index.html
+
+11. printf 'import React from "react";\nimport ReactDOM from "react-dom/client";\nimport App from "./components/App";\n\nconst root = ReactDOM.createRoot(document.getElementById("root"));\nroot.render(\n  <React.StrictMode>\n    <App />\n  </React.StrictMode>\n);\n' > index.js
+
+12. mkdir components
+
+13. cd components
+
+13. touch App.js
+
+14. printf 'import React, { Component } from "react";\n\nclass App extends Component {\n  render() {\n    return (\n      <div>\n        <h1>My React App</h1>\n      </div>\n    );\n  }\n}\n\nexport default App;\n' > App.js
+
+11. cd ../..
+
+12. touch .babelrc
+
+13. printf '{\n  "presets": ["@babel/env", "@babel/react"]\n}\n' > .babelrc
+
+14. touch .browserslistrc
+
+15. printf '> 0.25%%\nnot dead\nnot op_mini all' > .browserslistrc
+
+11. touch webpack.config.js
+
+12. printf 'const path = require("path");\nconst HtmlWebpackPlugin = require("html-webpack-plugin");\n\nmodule.exports = {\n  entry: "./src/index.js",\n  output: {\n    filename: "bundle.js",\n    path: path.resolve(__dirname, "dist"),\n  },\n  devtool: "inline-source-map",\n  module: {\n    rules: [\n      {\n        test: /\.css$/i,\n        use: ["style-loader", "css-loader"],\n      },\n      {\n        test: /\.(png|svg|jpg|jpeg|gif)$/i,\n        type: "asset/resource",\n      },\n      {\n        test: /\.m?js$/,\n        exclude: /node_modules/,\n        use: {\n          loader: "babel-loader",\n        },\n      },\n    ],\n  },\n  plugins: [\n    new HtmlWebpackPlugin({\n      template: "./src/index.html",\n    }),\n  ],\n};\n' > webpack.config.js
+
+13. echo node_modules/ > .gitignore
+
+14. printf 'node_modules/\n' > .eslintignore
+
+15. printf 'node_modules/\n' > .prettierignore
+
+16. echo {} > .prettierrc.json
+
+17. touch .eslintrc.json
+
+19. mkdir .vscode
+
+20. cd .vscode/
+
+21. touch settings.json
+
+22. printf '{\n  "editor.codeActionsOnSave": {\n      "source.fixAll.eslint": true\n  },\n  "eslint.validate": ["javascript"],\n  "editor.defaultFormatter": "esbenp.prettier-vscode",\n  "[javascript]": {\n    "editor.defaultFormatter": "esbenp.prettier-vscode"\n  },\n  "editor.formatOnSave": true,\n  \n}\n' > settings.json
+
+23. cd ..
+----- pana aici pot automatiza usor --------
+
+24. npm init @eslint/config
+
+25. npm install --save-dev eslint-config-prettier
+
+26. adauga ce scrie mai jos la .eslintrc.json
+
+
+ "extends": [
+        "plugin:react/recommended",
+        "airbnb",
+        "prettier"
+    ],
+  
+  "rules": {
+    "no-console": "warn",
+    "quotes": ["error", "single"],
+    "no-plusplus": "off",
+    "react/prefer-stateless-function": "off",
+    "react/jsx-filename-extension": "off"
+  }
+
+
+
+26. adauga ce scrie mai jos in package.json la sfarsit(prettier) si scripts inlocuieste
+"prettier": {
+    "singleQuote": true
+  }
+
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production",
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server --mode development --open --hot"
+  },
+
+27. git init -b main
+
+28. git add . && git commit -m "initial commit"
+
+29. gh repo create
